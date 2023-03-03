@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form  th:action="@{/hospitals/{id}/update(id=${hospital.getId()})}" th:object="${hospital}" th:method="POST">
+    <label for="name">Name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <label for="address">Address: </label>
+    <input type="text" th:field="*{address}" id="address"/>
+    <div class="form-group">
+        <label for="image" class="form-label">Image:</label>
+        <input type="text" th:field="*{image}" id="image" class="form-control form-control-lg"/>
+    </div>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

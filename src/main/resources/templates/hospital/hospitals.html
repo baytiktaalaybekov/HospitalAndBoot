@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospitals</title>
+    <!--    <link type="image/x-icon" href="/favicon.-->
+
+    <style>
+        body {
+            background-image: url("https://wallpaperaccess.com/full/624111.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+    </style>
+    <style>
+        button {
+            align-items: center;
+            background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            display: flex;
+            font-family: Phantomsans, sans-serif;
+            font-size: 18px;
+            justify-content: center;
+            line-height: 1em;
+            max-width: 100%;
+            min-width: 140px;
+            padding: 3px;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        button:active,
+        button:hover {
+            outline: 0;
+        }
+
+        button span {
+            background-color: rgb(5, 6, 45);
+            padding: 16px 24px;
+            border-radius: 6px;
+            width: 100%;
+            height: 100%;
+            transition: 300ms;
+        }
+
+        button:hover span {
+            background: none;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+    </style>
+    <style>
+        .btn-donate {
+            --clr-font-main: hsla(0 0% 20% / 100);
+            --btn-bg-1: hsla(194 100% 69% / 1);
+            --btn-bg-2: hsla(217 100% 56% / 1);
+            --btn-bg-color: hsla(360 100% 100% / 1);
+            --radii: 0.5em;
+            cursor: pointer;
+            padding: 0.9em 1.4em;
+            min-width: 120px;
+            min-height: 44px;
+            /*font-size: var(--size, 1rem);*/
+            font-family: "Segoe UI", system-ui, sans-serif;
+            font-weight: 500;
+            transition: 0.8s;
+            background-size: 280% auto;
+            background-image: linear-gradient(325deg, var(--btn-bg-2) 0%, var(--btn-bg-1) 55%, var(--btn-bg-2) 90%);
+            border: none;
+            border-radius: var(--radii);
+            color: var(--btn-bg-color);
+            box-shadow: 0px 0px 20px rgba(71, 184, 255, 0.5), 0px 5px 5px -1px rgba(58, 125, 233, 0.25), inset 4px 4px 8px rgba(175, 230, 255, 0.5), inset -4px -4px 8px rgba(19, 95, 216, 0.35);
+        }
+
+        .btn-donate:hover {
+            background-position: right top;
+        }
+
+        .btn-donate:is(:focus, :focus-within,:active) {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--btn-bg-color), 0 0 0 6px var(--btn-bg-2);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .btn-donate {
+                transition: linear;
+            }
+        }
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container" style="width: 20%; margin: 0 auto">
+    <div class="card" style="width: 18rem;"
+         th:each="hospital:${hospitals}">
+
+        <img th:src="${hospital.getImage()}" object-fit width="223" height="170px" class="card-img-top" alt="Image">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${hospital.getName()}">Hospital</h5>
+            <p class="card-title" th:text="${hospital.getAddress()}">Address</p>
+
+            <div>
+                <p>
+                <form th:method="GET" th:action="@{/hospitals/{hospitalId}/delete(hospitalId=${hospital.getId()})}">
+                    <input type="submit" class="btn btn-outline-primary" th:value="  Delete  "/>
+                </form>
+                </p>
+                <td>
+                    <p>
+                    <form th:action="@{/hospitals/{hospitalId}/edit(hospitalId=${hospital.getId()})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Edit  "/>
+                    </form>
+                    </p>
+                </td>
+                <p>
+                    <a th:method="GET" th:href="@{/departments/{id}(id=${hospital.getId()})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Departments  "/>
+                    </a>
+                </p>
+                <p>
+                    <a th:method="GET" th:href="@{/doctors/{id}(id=${hospital.getId()})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Doctors  "/>
+                    </a>
+                    <a th:method="GET" th:href="@{/patients/{id}(id=${hospital.id})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Patients  "/>
+                    </a>
+                    <br>
+                    <br>
+                    <a th:method="GET" th:href="@{/appointments/{id}(id=${hospital.id})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Appointments  "/>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+<br>
+<br>
+
+<p style="text-align:center;">
+    <a class="btn-donate" role="button" href="/hospitals/new">Add Hospital</a></p>
+
+<br/>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</html>
+
+
+

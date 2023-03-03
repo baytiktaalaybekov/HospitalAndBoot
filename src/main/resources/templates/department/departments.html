@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctors</title>
+  <style>
+    body{
+      background-image: url("https://medcitynews.com/uploads/2021/04/GettyImages-1257425587.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="wrapper-btn">
+  <a th:href="@{/hospitals}">
+    <button class="btn btn-primary" type="button">back</button>
+  </a>
+</div>
+<div class="container mt-3">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Department</th>
+      <th>Hospital</th>
+      <th>Assign doctor</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="department : ${departments}">
+      <td th:text="${department.id}"></td>
+      <td th:text="${department.name}"></td>
+      <td th:text="${department.hospital.name}"></td>
+
+
+      <td>
+        <form th:method="POST"
+              th:action="@{/departments/{hospitalId}/{departmentId}/assignDoctor (hospitalId=${hospitalId},departmentId=${department.getId()})}">
+          <select name="department" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                  th:object="${doctor}" th:field="*{id}">
+            <option th:each="doctor : ${doctors}"
+                    th:value="${doctor.id}"
+                    th:text="${doctor.fistName}"></option>
+          </select>
+          <input type="submit" value="submit"/>
+        </form>
+      </td>
+
+      <td>
+        <a th:method="patch" th:href="@{/departments/edit/{departmentId}(departmentId=${department.getId()})}">
+          <input type="submit" class="btn btn-outline-primary"  th:value="  Edit  "/>
+        </a>
+      </td>
+      <td>
+        <form th:method="GET" th:action="@{/departments/{id}/{departmentId}/delete(id=${hospitalId},departmentId=${department.getId()})}">
+          <input type="submit" class="btn btn-outline-primary"   th:value="  Delete  "/>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/departments/new/{id}(id=${hospitalId})}" >Add Department</a>
+  </li>
+</div>
+
+</body>
+</html>
+
+
+
+
+
